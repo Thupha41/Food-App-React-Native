@@ -1,4 +1,4 @@
-import AppProvider from "context/app.context";
+import AppProvider from "@/context/app.context";
 import { DefaultTheme, ThemeProvider, DarkTheme } from "@react-navigation/native";
 import { ErrorBoundaryProps, Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";

@@ -6,6 +6,7 @@ import googleLogo from '@/assets/auth/google.png'
 import { LinearGradient } from "expo-linear-gradient"
 import TextBetweenLine from "@/components/button/text.between.line"
 import { APP_COLOR } from "@/utils/constants"
+import { Link, Redirect } from "expo-router"
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -42,6 +43,11 @@ const styles = StyleSheet.create({
     },
 })
 const WelcomePage = () => {
+    // if(true) {
+    //     return (
+    //         <Redirect href={"/(auth)/signup"}/>
+    //     )
+    // }
     return (
         <ImageBackground 
             style={{ flex: 1}}
@@ -57,7 +63,7 @@ const WelcomePage = () => {
                     <View style={styles.welcomeText}>
                         <Text style={styles.heading}>Welcome to</Text>
                         <Text style={styles.body}>Foody</Text>
-                        <Text style={styles.slogan}>Nền tảng giao đồ ăn trực tuyến hàn đầu Việt Nam</Text>
+                        <Text style={styles.slogan}>Nền tảng giao đồ ăn trực tuyến hàng đầu Việt Nam</Text>
                     </View>
                     <View style={styles.welcomeBtn}>
                         <TextBetweenLine title="Đăng nhập với" />
@@ -130,9 +136,12 @@ const WelcomePage = () => {
                             }}>
                                 Chưa có tài khoản?
                             </Text>
-                            <Text style={{ color: "white", textDecorationLine: 'underline' }}>
-                                Đăng ký.
-                            </Text>
+                            <Link href={"/(auth)/signup"}>
+                                <Text style={{ color: "white", textDecorationLine: 'underline' }}>
+                                    Đăng ký.
+                                </Text>
+                            </Link>
+
                         </View>
                     </View>
                 </View>
