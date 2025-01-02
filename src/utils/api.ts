@@ -6,3 +6,10 @@ export const registerAPI = (email: string, password: string, name: string) => {
         email, password, name
     })
 }
+
+export const verifyCodeAPI = (email: string, code: string) => {
+    const url = `/api/v1/auth/verify-code`;
+    return axios.post<IBackendRes<IRegister>>(url, {
+        email, code
+    })
+}
