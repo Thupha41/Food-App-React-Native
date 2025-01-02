@@ -1,13 +1,11 @@
-import { Text, View } from "react-native"
+import { Text, View } from "react-native";
 
 const VerifyPage = () => {
-    return (
-        <View>
-            <Text>
-                Sign up screen
-            </Text>
-        </View>
-    )
-}
+  return (
+    <View>
+      <Text>Verify page</Text>
+    </View>
+  );
+};
 
-export default VerifyPage
+export default VerifyPage;

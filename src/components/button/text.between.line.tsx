@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 35
     },
     tbl_Text: {
-        color: "white",
+        color: "black",
         position: "relative",
         top: 10
     }
