@@ -1,7 +1,8 @@
 import LoadingOverlay from "@/components/loading/overlay";
 import { verifyCodeAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constants";
-import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Keyboard } from "react-native";
 import OTPTextView from "react-native-otp-textinput";
 import Toast from "react-native-root-toast";
@@ -19,26 +20,39 @@ const styles = StyleSheet.create({
 });
 const VerifyPage = () => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const handleCellTextChange = async (text: string, i: number) => {
-    if (i === 5 && text) {
-      setIsSubmit(true);
-      Keyboard.dismiss();
-      setIsSubmit(false);
-      //call api
-      const res = await verifyCodeAPI("admin1@gmail.com", "123456");
-      if (res.data) {
-        //success
-        alert("success");
-      } else {
-        Toast.show(res.message as string, {
-          duration: Toast.durations.LONG,
-          textColor: "white",
-          backgroundColor: "red",
-          opacity: 1,
-        });
-      }
+  const otpRef = useRef<OTPTextView>(null);
+  const [code, setCode] = useState<string>("");
+  const { email } = useLocalSearchParams();
+
+  const handleVerifyCode = async () => {
+    Keyboard.dismiss();
+    setIsSubmit(true);
+    const res = await verifyCodeAPI(email as string, code);
+    setIsSubmit(false);
+    if (res.data) {
+      //success
+      otpRef?.current?.clear();
+      Toast.show("Kích hoạt tài khoản thành công", {
+        duration: Toast.durations.LONG,
+        textColor: "white",
+        backgroundColor: "green",
+        opacity: 1,
+      });
+      router.navigate("/(auth)/login");
+    } else {
+      Toast.show(res.message as string, {
+        duration: Toast.durations.LONG,
+        textColor: "white",
+        backgroundColor: "red",
+        opacity: 1,
+      });
     }
   };
+  useEffect(() => {
+    if (code && code.length === 6) {
+      handleVerifyCode();
+    }
+  }, [code]);
 
   return (
     <>
@@ -49,7 +63,8 @@ const VerifyPage = () => {
         </Text>
         <View style={{ marginVertical: 20 }}>
           <OTPTextView
-            handleCellTextChange={handleCellTextChange}
+            ref={otpRef}
+            handleTextChange={setCode}
             autoFocus
             inputCount={6}
             inputCellLength={1}
