@@ -1,11 +1,12 @@
 import ShareButton from "@/components/button/share.button";
 import SocialButton from "@/components/button/social.button";
 import ShareInput from "@/components/input/share.input";
+import { registerAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constants";
-import axios from "axios";
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
+import Toast from "react-native-root-toast";
 import { SafeAreaView } from "react-native-safe-area-context";
 const styles = StyleSheet.create({
   container: {
@@ -20,18 +21,21 @@ const SignUpPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const URL_BACKEND = process.env.EXPO_PUBLIC_API_URL;
-
   const handleSignUp = async () => {
-    const url = `${URL_BACKEND}/api/v1/auth/register`;
     try {
-      const res = await axios.post(url, {
-        email,
-        password,
-        name,
-      });
+      const res = await registerAPI(email, password, name);
       if (res.data) {
         router.navigate("/(auth)/verify");
+      } else {
+        const message = Array.isArray(res.message)
+          ? res.message[0]
+          : res.message;
+        Toast.show(message, {
+          duration: Toast.durations.LONG,
+          textColor: "white",
+          backgroundColor: "red",
+          opacity: 1,
+        });
       }
       console.log(">>> check response data", res.data);
     } catch (error) {
