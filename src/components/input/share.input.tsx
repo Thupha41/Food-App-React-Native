@@ -1,35 +1,34 @@
 import { APP_COLOR } from "@/utils/constants";
 import { useState } from "react";
 import {
-  View,
   Text,
-  TextInput,
+  View,
   StyleSheet,
+  TextInput,
   KeyboardTypeOptions,
+  Platform,
 } from "react-native";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+
 const styles = StyleSheet.create({
   inputGroup: {
     padding: 5,
     gap: 10,
   },
+
   text: {
     fontSize: 18,
   },
   input: {
     borderWidth: 1,
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: Platform.OS === "android" ? 10 : 15,
     borderRadius: 10,
   },
-  eyes: {
+  eye: {
     position: "absolute",
     right: 10,
     top: 18,
-  },
-  errMessage: {
-    color: "red",
-    marginTop: 5,
   },
 });
 
@@ -42,6 +41,8 @@ interface IProps {
   onChangeText?: any;
   onBlur?: any;
   error?: any;
+  touched?: any;
+  editable?: boolean;
 }
 const ShareInput = (props: IProps) => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
@@ -55,14 +56,18 @@ const ShareInput = (props: IProps) => {
     onChangeText,
     onBlur,
     error,
+    touched,
+    editable = true,
   } = props;
+
   return (
     <View style={styles.inputGroup}>
       {title && <Text style={styles.text}>{title}</Text>}
       <View>
         <TextInput
-          onChangeText={onChangeText}
+          editable={editable}
           value={value}
+          onChangeText={onChangeText}
           onFocus={() => setIsFocus(true)}
           onBlur={(e) => {
             if (onBlur) onBlur(e);
@@ -75,12 +80,14 @@ const ShareInput = (props: IProps) => {
           ]}
           secureTextEntry={secureTextEntry && !isShowPassword}
         />
-        {error && <Text style={styles.errMessage}>{error}</Text>}
+        {error && touched && (
+          <Text style={{ color: "red", marginTop: 5 }}>{error}</Text>
+        )}
         {secureTextEntry && (
           <FontAwesome5
-            style={styles.eyes}
+            style={styles.eye}
             name={isShowPassword ? "eye" : "eye-slash"}
-            size={18}
+            size={15}
             color="black"
             onPress={() => setIsShowPassword(!isShowPassword)}
           />

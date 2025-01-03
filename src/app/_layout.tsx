@@ -69,39 +69,35 @@ const RootLayout = () => {
                 name="(auth)/verify"
                 options={{ headerShown: false }}
               />
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="(auth)/welcome"
+                options={{ headerShown: false }}
+              />
               {/* <Stack.Screen
-                                name="(auth)/welcome"
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="(auth)/request.password"
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="(auth)/forgot.password"
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="(auth)/search"
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="(auth)/restaurants"
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name="(auth)/popup.sale"
-                                options={{
-                                    headerShown: false,
-                                    animation: "fade",
-                                    presentation: "transparentModal",
-                                }}
-                            />
-                            <Stack.Screen
-                                name="(tabs)"
-                                options={{ headerShown: false }}
-                            /> */}
+                name="(auth)/request.password"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="(auth)/forgot.password"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="(auth)/search"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="(auth)/restaurants"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="(auth)/popup.sale"
+                options={{
+                  headerShown: false,
+                  animation: "fade",
+                  presentation: "transparentModal",
+                }}
+              /> */}
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
               {/* <Stack.Screen
                                 name="(user)/product/[id]"

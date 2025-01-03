@@ -1,4 +1,6 @@
 import axios from "@/utils/axios.customize";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Platform } from "react-native";
 
 export const registerAPI = (email: string, password: string, name: string) => {
     const url = `/api/v1/auth/register`;
@@ -27,3 +29,28 @@ export const loginApi = (email: string, password: string) => {
         username: email, password
     })
 }
+
+export const getAccountApi = () => {
+    const url = `/api/v1/auth/account`;
+    return axios.get<IBackendRes<IUserLogin>>(url)
+}
+
+export const getURLBaseBackend = () => {
+    const backend = Platform.OS === "android"
+        ? process.env.EXPO_PUBLIC_ANDROID_API_URL
+        : process.env.EXPO_PUBLIC_IOS_API_URL;
+
+    return backend;
+}
+
+export const printAsyncStorage = () => {
+    AsyncStorage.getAllKeys((err, keys) => {
+        AsyncStorage.multiGet(keys!, (error, stores) => {
+            let asyncStorage: any = {}
+            stores?.map((result, i, store) => {
+                asyncStorage[store[i][0]] = store[i][1]
+            });
+            console.log(JSON.stringify(asyncStorage, null, 2));
+        });
+    });
+};
