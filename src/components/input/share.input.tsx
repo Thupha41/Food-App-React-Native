@@ -27,6 +27,10 @@ const styles = StyleSheet.create({
     right: 10,
     top: 18,
   },
+  errMessage: {
+    color: "red",
+    marginTop: 5,
+  },
 });
 
 interface IProps {
@@ -34,7 +38,10 @@ interface IProps {
   keyboardType?: KeyboardTypeOptions;
   secureTextEntry?: boolean;
   value: any;
-  setValue: (v: any) => void;
+  setValue?: (v: any) => void;
+  onChangeText?: any;
+  onBlur?: any;
+  error?: any;
 }
 const ShareInput = (props: IProps) => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
@@ -45,16 +52,22 @@ const ShareInput = (props: IProps) => {
     secureTextEntry = false,
     value,
     setValue,
+    onChangeText,
+    onBlur,
+    error,
   } = props;
   return (
     <View style={styles.inputGroup}>
       {title && <Text style={styles.text}>{title}</Text>}
       <View>
         <TextInput
-          onChangeText={(text) => setValue(text)}
+          onChangeText={onChangeText}
           value={value}
           onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
+          onBlur={(e) => {
+            if (onBlur) onBlur(e);
+            setIsFocus(false);
+          }}
           keyboardType={keyboardType}
           style={[
             styles.input,
@@ -62,6 +75,7 @@ const ShareInput = (props: IProps) => {
           ]}
           secureTextEntry={secureTextEntry && !isShowPassword}
         />
+        {error && <Text style={styles.errMessage}>{error}</Text>}
         {secureTextEntry && (
           <FontAwesome5
             style={styles.eyes}

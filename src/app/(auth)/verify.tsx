@@ -1,5 +1,5 @@
 import LoadingOverlay from "@/components/loading/overlay";
-import { verifyCodeAPI } from "@/utils/api";
+import { resendCodeAPI, verifyCodeAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constants";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
@@ -22,7 +22,7 @@ const VerifyPage = () => {
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const otpRef = useRef<OTPTextView>(null);
   const [code, setCode] = useState<string>("");
-  const { email } = useLocalSearchParams();
+  const { email, isLogin } = useLocalSearchParams();
 
   const handleVerifyCode = async () => {
     Keyboard.dismiss();
@@ -38,12 +38,29 @@ const VerifyPage = () => {
         backgroundColor: "green",
         opacity: 1,
       });
-      router.navigate("/(auth)/login");
+      if (isLogin) {
+        router.replace("/(tabs)");
+      } else router.replace("/(auth)/login");
     } else {
       Toast.show(res.message as string, {
         duration: Toast.durations.LONG,
         textColor: "white",
         backgroundColor: "red",
+        opacity: 1,
+      });
+    }
+  };
+
+  const handleResendCode = async () => {
+    otpRef?.current?.clear();
+    //call api
+    const res = await resendCodeAPI(email as string);
+    const m = res.data ? "Resend code thành công" : res.message;
+    if (res.data) {
+      Toast.show(m as string, {
+        duration: Toast.durations.LONG,
+        textColor: "white",
+        backgroundColor: "green",
         opacity: 1,
       });
     }
@@ -81,7 +98,13 @@ const VerifyPage = () => {
         </View>
         <View style={{ flexDirection: "row", marginVertical: 10 }}>
           <Text>Không nhận được mã xác nhận,</Text>
-          <Text style={{ textDecorationLine: "underline" }}> gửi lại</Text>
+          <Text
+            onPress={handleResendCode}
+            style={{ textDecorationLine: "underline" }}
+          >
+            {" "}
+            gửi lại
+          </Text>
         </View>
       </View>
       {isSubmit && <LoadingOverlay />}
