@@ -1,13 +1,12 @@
-import { Text, View } from "react-native"
-import { Link } from "expo-router"
+import { Text, View } from "react-native";
+import { Link } from "expo-router";
+import RMain from "@/components/example/restaurant/main";
 const Thupha = () => {
-    return (
-        <View>
-            <Text>2. Thupha</Text>
-            <Link href={"/"}>go to home</Link>
-        </View>
+  return (
+    <View>
+      <RMain />
+    </View>
+  );
+};
 
-    )
-}
-
-export default Thupha
+export default Thupha;

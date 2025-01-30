@@ -76,7 +76,7 @@ const VerifyPage = () => {
       <View style={styles.container}>
         <Text style={styles.heading}> Xác thực tài khoản</Text>
         <Text style={{ marginVertical: 10 }}>
-          Vui lòng nhập mã xác nhận đã được gửi tới địa chỉ username@gmail.com
+          Vui lòng nhập mã xác nhận đã được gửi tới địa chỉ email {email}
         </Text>
         <View style={{ marginVertical: 20 }}>
           <OTPTextView

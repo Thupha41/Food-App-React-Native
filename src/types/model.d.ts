@@ -20,6 +20,7 @@ declare global {
 
     interface IRegister {
         _id: string;
+        // access_token: string;
     }
 
     interface IUserLogin {

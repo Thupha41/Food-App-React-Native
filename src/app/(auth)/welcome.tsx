@@ -16,7 +16,7 @@ import TextBetweenLine from "@/components/button/text.between.line";
 import { Link, Redirect, router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
-import { getAccountApi, printAsyncStorage } from "@/utils/api";
+import { getAccountAPI, printAsyncStorage } from "@/utils/api";
 import { useCurrentApp } from "@/context/app.context";
 
 const styles = StyleSheet.create({

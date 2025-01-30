@@ -4,6 +4,7 @@ import ShareInput from "@/components/input/share.input";
 import { registerAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constants";
 import { SignUpSchema } from "@/utils/validate.schema";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, router } from "expo-router";
 import { Formik } from "formik";
 import { useState } from "react";
@@ -23,10 +24,14 @@ const SignUpPage = () => {
     email: string,
     password: string,
     name: string
+    //confirm_password: string
   ) => {
     try {
       const res = await registerAPI(email, password, name);
+      //confirm_password);
       if (res.data) {
+        //await AsyncStorage.setItem("access_token", res.data.access_token);
+        // setAppState(res.result);
         router.replace({ pathname: "/(auth)/verify", params: { email } });
       } else {
         const message = Array.isArray(res.message)
@@ -48,9 +53,19 @@ const SignUpPage = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <Formik
         validationSchema={SignUpSchema}
-        initialValues={{ email: "", password: "", name: "" }}
+        initialValues={{
+          email: "",
+          password: "",
+          name: "",
+          //confirm_password: "",
+        }}
         onSubmit={(values) =>
-          handleSignUp(values.email, values.password, values.name)
+          handleSignUp(
+            values.email,
+            values.password,
+            values.name
+            //values.confirm_password
+          )
         }
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
@@ -90,6 +105,14 @@ const SignUpPage = () => {
               value={values.password}
               error={errors.password}
             />
+            {/* <ShareInput
+              title="Nhập lại Mật khẩu"
+              secureTextEntry={true}
+              onChangeText={handleChange("confirm_password")}
+              onBlur={handleBlur("confirm_password")}
+              value={values.confirm_password}
+              error={errors.confirm_password}
+            /> */}
             <View style={{ marginVertical: 10 }}></View>
             <ShareButton
               onPress={handleSubmit}

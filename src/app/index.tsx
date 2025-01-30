@@ -1,7 +1,7 @@
 import { Link, Redirect, router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { getAccountApi } from "@/utils/api";
+import { getAccountAPI } from "@/utils/api";
 import { useCurrentApp } from "@/context/app.context";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
@@ -22,7 +22,7 @@ const RootPage = () => {
     async function prepare() {
       try {
         // Pre-load fonts, make any API calls you need to do here
-        const res = await getAccountApi();
+        const res = await getAccountAPI();
 
         if (res.data) {
           //success

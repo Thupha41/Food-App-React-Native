@@ -2,7 +2,7 @@ import ShareButton from "@/components/button/share.button";
 import SocialButton from "@/components/button/social.button";
 import ShareInput from "@/components/input/share.input";
 import { useCurrentApp } from "@/context/app.context";
-import { loginApi } from "@/utils/api";
+import { loginAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constants";
 import { LoginSchema } from "@/utils/validate.schema";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -28,8 +28,9 @@ const LoginPage = () => {
   const handleLogin = async (email: string, password: string) => {
     try {
       setLoading(true);
-      const res = await loginApi(email, password);
+      const res = await loginAPI(email, password);
       setLoading(false);
+      console.log(res.data);
       if (res.data) {
         await AsyncStorage.setItem("access_token", res.data.access_token);
         setAppState(res.data);
@@ -106,7 +107,7 @@ const LoginPage = () => {
 
             <View style={{ marginVertical: 10 }}>
               <Text
-                onPress={() => router.navigate("/(auth)\request.password")}
+                onPress={() => router.navigate("/(auth)/request.password")}
                 style={{
                   textAlign: "center",
                   color: APP_COLOR.ORANGE,
